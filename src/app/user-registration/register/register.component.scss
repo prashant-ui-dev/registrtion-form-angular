@@ -1,0 +1,36 @@
+$text-primary:#116232;
+$submit-btn:#ee1d23;
+.ats-form {
+    padding: 20px;
+    .col-md-12,
+    .col-md-4,
+    .col-md-6 {
+        margin-bottom: 15px;
+    }
+}
+
+.main_head {
+    color: $text-primary;
+    font-size: 40px;
+}
+
+.radio-btns label {
+    font-weight: 500;
+}
+
+.btn-submit {
+    background-color: $submit-btn;
+    color: #fff;
+}
+
+.regis-form {
+    background: #f5f4f4;
+}
+
+table {
+    tr {
+        th {
+            font-size: 15px;
+        }
+    }
+}

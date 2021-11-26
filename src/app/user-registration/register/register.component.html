@@ -1,0 +1,198 @@
+<section class="regis-form">
+    <div class="container">
+        <div class="py-3 ats-form">
+            <h1 class="text-center py-3 main_head">Registration Form</h1>
+            <div *ngIf="alertform" class="alert alert-success" role="alert">
+                Form data succesfully submitted -data added in below table
+            </div>
+            <form action="" [formGroup]="registerform" (ngSubmit)="OnSubmit()">
+                <div class="row form-group">
+                    <div class="col-md-4">
+                        <label for="">First Name</label>
+                        <input type="text" class="form-control" [class.is-invalid]=" f?.FirstName?.invalid && f?.FirstName?.touched || submitted" formControlName="FirstName" name="" id="" placeholder="First Name">
+                        <div *ngIf="f.FirstName?.invalid && f?.FirstName?.touched">
+                            <span *ngIf="f.FirstName?.errors?.required" class="text-danger">Fisrt Name is required</span>
+                            <span *ngIf="f.FirstName?.errors?.minlength" class="text-danger">Minimum 3 character is required</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="">Middle Name</label>
+                        <input type="text" class="form-control" name="" id="" formControlName="midname" placeholder="Middle Name">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="">Last  Name</label>
+                        <input type="text" class="form-control" name="" formControlName="lastname" id="" placeholder="Last Name">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="">Gender</label>
+                        <div class="d-flex radio-btns">
+                            <div class="form-check mx-1" *ngFor="let gender of genders">
+                                <input class="form-check-input" type="radio" formControlName="gender" [value]="[gender]">
+                                <label class="form-check-label">
+                                    {{gender}}
+                                </label>
+                            </div>
+                        </div>
+                        <div *ngIf="submitted" class="text-danger">
+                            <div *ngIf="f.gender?.errors?.required">Gender is required.</div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Enter Your phone Number</label>
+                        <input type="tel" class="form-control" [class.is-invalid]=" f.phone?.invalid && f.phone?.touched &&  submitted" name="" id="" formControlName="phone" placeholder="Enter Your phone Number">
+                        <div *ngIf="f.phone.touched && f.phone.invalid">
+                            <div class="text-danger" *ngIf="f.phone.errors?.required">Please enter mobile number</div>
+                            <div class="text-danger" *ngIf="f.phone.errors?.pattern">Mobile number is not 10 digit</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Enter Your Email Address</label>
+                        <input type="email" class="form-control" [class.is-invalid]="  f.email?.invalid &&   f.email?.touched" name="" id="" formControlName="email" placeholder="Enter Your Email Address">
+
+                        <div *ngIf="(f.email?.touched &&  f.email?.invalid ) || f.email?.dirty || submitted">
+                            <small class="text-danger" *ngIf="f.email?.errors?.required">Email address is required</small>
+                            <small class="text-danger" *ngIf="f.email?.errors?.pattern">Email address is invalid</small>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="">Postal Address</label>
+                        <textarea name="" placeholder="Postal Address" id="" class="form-control" [class.is-invalid]="f.postaladdress?.touched  && f.postaladdress?.invalid && submitted" formControlName="postaladdress" cols="30" rows="5"></textarea>
+                        <!-- <div class="text-danger" *ngIf="postaladdress?.errors?.required">Please enter postal address</div> -->
+                        <div *ngIf="f.postaladdress?.invalid && f.postaladdress?.touched">
+                            <span *ngIf="f.postaladdress?.errors?.required" class="text-danger">Please enter postal address</span>
+                            <span *ngIf="f.postaladdress?.errors?.maxlength" class="text-danger">Minimum 20 character is required</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Enter Your Adhaar Number</label>
+                        <input placeholder="Enter Your Adhaar Number" type="text" class="form-control" name="" [class.is-invalid]="f.aadharnum?.touched  && f.aadharnum?.invalid && submitted" id="" formControlName="aadharnum">
+                        <div *ngIf="f.aadharnum?.invalid && f.aadharnum?.touched">
+                            <span *ngIf="f.aadharnum?.errors?.required" class="text-danger">Please enter addharcard number</span>
+                            <span *ngIf="f.aadharnum?.errors?.pattern" class="text-danger">Please enter valid addharcard number egs-111122223333</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Enter Your Pancard Number</label>
+                        <input placeholder="Enter Your Pancard Number" type="text" class="form-control" name="" id="" [class.is-invalid]="submitted && f?.pancard?.touched  && f?.pancard?.invalid " formControlName="pancard">
+                        <div *ngIf="f.pancard?.invalid && f.pancard.touched">
+                            <span *ngIf="f.pancard?.errors?.required" class="text-danger">Please enter pan  number</span>
+                            <span *ngIf="f.pancard?.errors?.pattern" class="text-danger">Please enter valid pan number- eg BNZAA2318J</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Please upload photo</label>
+                        <input #file class="form-control" type="file" accept='image/*' (change)="preview(file.files)" formControlName="photo" [class.is-invalid]="submitted" name="" id="">
+                        <div class="py-2">
+                            <img [src]="imgURL" class="img-fluid" *ngIf="imgURL">
+                        </div>
+                        <div *ngIf="submitted &&  f.photo?.invalid && f.photo?.touched">
+                            <span *ngIf="f.photo?.errors?.required" class="text-danger">Please  upload photo</span>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Please upload Document</label>
+                        <input class="form-control" type="file" formControlName="docs" (change)="onFileChange($event)" [class.is-invalid]="submitted" name="" id="">
+                        <div class="py-2">
+                            <img [src]="imageSrc" *ngIf="imageSrc" class="img-fluid" />
+                        </div>
+                        <div *ngIf="submitted && f.docs?.invalid && f.docs?.touched">
+                            <span *ngIf="f.docs?.errors?.required" class="text-danger">Please  upload photo</span>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <button type="submit" [disabled]="!registerform.valid" (click)='SaveUsers()' class="btn px-4 btn-submit">Submit</button>
+                        <button (click)="formData() " class="btn btn-danger mx-2 ">Load api data</button>
+                        <button class="btn btn-secondary mx-2" type="reset" (click)="onReset()">Reset</button>
+                        <button (click)="getUsers()" class="btn btn-warning">Get Users</button>
+                    </div>
+
+                </div>
+            </form>
+            <p class="text-success">Form Status: {{ registerform.status }}</p>
+
+        </div>
+        <div class="py-4 ">
+            <h4 class="py-2 text-primary ">Form data values :</h4>
+            <table class="table shadow ">
+                <thead>
+                    <tr>
+                        <th>
+                            First Name
+                        </th>
+                        <th>
+                            Middle Name
+                        </th>
+                        <th>
+                            Last Name
+                        </th>
+                        <th>
+                            Gender
+                        </th>
+                        <th>
+                            phone Number
+                        </th>
+                        <th>
+                            Email Address
+                        </th>
+                        <th>Postal Address</th>
+                        <th>Adhar Number</th>
+                        <th>
+                            Photo
+                        </th>
+                        <th>Your Document</th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of Users;index as i" id="user-{{i}}">
+                        <td>
+                            {{item.FirstName}}
+                        </td>
+                        <td>
+                            {{item.midname}}
+                        </td>
+                        <td>
+                            {{item.lastname}}
+                        </td>
+                        <td>
+                            {{item.gender}}
+                        </td>
+                        <td>
+                            {{item.phone}}
+                        </td>
+                        <td>
+                            {{item.email}}
+                        </td>
+                        <td>
+                            {{item.postaladdress}}
+                        </td>
+                        <td>
+                            {{item.aadharnum}}
+                        </td>
+
+                        <td>
+                            <!-- {{item.photo}} -->
+                            <img [src]="imgURL " class="img-fluid " *ngIf="imgURL " />
+
+
+                        </td>
+
+                        <td>
+                            <!-- {{item.docs}} -->
+                            <img [src]="imageSrc " *ngIf="imageSrc " class="img-fluid " />
+
+                        </td>
+                        <td>
+                            <span (click)="deleteUsers(i)" class="btn btn-danger btn-sm">Delete</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
